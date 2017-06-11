@@ -26,7 +26,7 @@ module.exports = class extends Generator {
       },
       {
         type: 'input',
-        name: 'username',
+        name: 'author',
         message: 'Your name',
         default: this.username
       },
@@ -65,16 +65,20 @@ module.exports = class extends Generator {
     [
       'build', 'config', 'test'
     ].forEach(
-      dir => this.fs.copy(this.templatePath(dir, '**'), this.destinationPath(dir))
+      dir => this.fs.copy(this.templatePath(dir), this.destinationPath(dir))
     );
-    // empty folders
+    // dot hidden files.
     [
-      'static'
+      'test/unit', 'static',
     ].forEach(
       dir => this.fs.copy(this.templatePath(dir, '.*'), this.destinationPath(dir))
     );
-    this.fs.copyTpl(this.templatePath('src'), this.destinationPath('src'), this.props);
-    this.fs.copyTpl(this.templatePath('index.html'), this.destinationPath('index.html'), this.props);
+    // templates
+    [
+      'src', 'index.html', 'package.json', 'README.md'
+    ].forEach(
+      path => this.fs.copyTpl(this.templatePath(path), this.destinationPath(path), this.props)
+    );
   }
 
   install() {
