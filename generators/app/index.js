@@ -1,22 +1,42 @@
 'use strict';
+const fs = require('fs');
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
-
   prompting() {
     // Have Yeoman greet the user.
     this.log(yosay(
       'Welcome to the outstanding ' + chalk.red('generator-vue-ts') + ' generator!'
     ));
 
-    const prompts = [{
-      type: 'input',
-      name: 'name',
-      message: 'Your project name',
-      default: this.appname // Default to current folder name
-    }];
+    const prompts = [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Your project name(project will be generated under this folder)',
+        default: this.appname // Default to current folder name
+      },
+      {
+        type: "input",
+        name: 'description',
+        message: "Project description",
+        default: "A Vue.js project"
+      },
+      {
+        type: 'input',
+        name: 'username',
+        message: 'Your name',
+        default: this.username
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'Your email',
+        default: ''
+      },
+    ];
 
     return this.prompt(prompts).then(props => {
       this.props = props;
@@ -24,14 +44,44 @@ module.exports = class extends Generator {
     });
   }
 
-  writing() {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
+  configuring() {
+    // try create folder
+    let isExist = fs.existsSync(this.destinationPath(this.props.name));
+    if (isExist && fs.statSync(this.destinationPath(this.props.name)).isDirectory()) {
+      this.log.error(`Directory [${this.props.name}] already exists`);
+      process.exit(1);
+    }
+    this.destinationRoot(this.props.name);
+    //copy configuration files.
+    [
+      '.babelrc', '.editorconfig', '.eslintignore', '.eslintrc.js', '.gitignore',
+      '.postcssrc.js'
+    ].forEach(
+      file => this.fs.copy(this.templatePath(file), this.destinationPath(file))
     );
   }
 
+  writing() {
+    [
+      'build', 'config', 'test'
+    ].forEach(
+      dir => this.fs.copy(this.templatePath(dir, '**'), this.destinationPath(dir))
+    );
+    // empty folders
+    [
+      'static'
+    ].forEach(
+      dir => this.fs.copy(this.templatePath(dir, '.*'), this.destinationPath(dir))
+    );
+    this.fs.copyTpl(this.templatePath('src'), this.destinationPath('src'), this.props);
+    this.fs.copyTpl(this.templatePath('index.html'), this.destinationPath('index.html'), this.props);
+  }
+
   install() {
-    this.installDependencies();
+    // this.installDependencies();
+  }
+
+  end() {
+
   }
 };
