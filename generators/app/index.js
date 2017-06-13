@@ -77,8 +77,11 @@ module.exports = class extends Generator {
     [
       'src', 'index.html', 'package.json', 'README.md'
     ].forEach(
-      path => this.fs.copyTpl(this.templatePath(path), this.destinationPath(path), this.props)
+      path => this.fs.copyTpl(this.templatePath(path), this.destinationPath(path), this.props, {
+        ignore: '*.png'
+      })
     );
+    this.fs.copy(this.templatePath('src/assets/*.png'), this.destinationPath('src/assets'));
   }
 
   install() {
