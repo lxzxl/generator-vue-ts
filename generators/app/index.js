@@ -86,6 +86,6 @@ module.exports = class extends Generator {
   }
 
   end() {
-
+    this.log.info('Type npm run dev to start! ')
   }
 };
