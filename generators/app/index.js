@@ -5,6 +5,12 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
+  constructor(args, opts) {
+    super(args, opts);
+
+    this.argument('appname', {type: String, required: false});
+  }
+
   prompting() {
     // Have Yeoman greet the user.
     this.log(yosay(
@@ -16,7 +22,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'name',
         message: 'Your project name(project will be generated under this folder)',
-        default: this.appname // Default to current folder name
+        default: this.options.appname || this.appname // Default to current folder name
       },
       {
         type: "input",
@@ -34,6 +40,12 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'email',
         message: 'Your email',
+        default: ''
+      },
+      {
+        type: 'confirm',
+        name: 'unitTest',
+        message: 'Would you like to enable the Unit Test feature?',
         default: ''
       },
     ];
@@ -69,7 +81,7 @@ module.exports = class extends Generator {
     );
     // dot hidden files.
     [
-      'test/unit', 'static',
+      'test/unit', 'static'
     ].forEach(
       dir => this.fs.copy(this.templatePath(dir, '.*'), this.destinationPath(dir))
     );

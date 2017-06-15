@@ -3,13 +3,13 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.ts'
   },
   output: {
     path: config.build.assetsRoot,
@@ -19,7 +19,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src')
@@ -27,13 +27,18 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.ts$/,
+      //   enforce: 'pre',
+      //   loader: 'tslint-loader',
+      //   options: {/* Loader options go here */}
+      // },
       {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
         options: {
-          formatter: require('eslint-friendly-formatter')
+          appendTsSuffixTo: [/\.vue$/],
         }
       },
       {

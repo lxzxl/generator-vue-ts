@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>Hello </h1>
+    <h1>{{ message }}</h1>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -20,14 +20,13 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'hello',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App',
-      };
-    },
+<script lang="ts">
+  import Vue from 'vue';
+  import Component from 'vue-class-component';
+
+  @Component
+  export default class Hello extends Vue {
+    message = 'Welcome to Your Vue.js App'
   };
 </script>
 
