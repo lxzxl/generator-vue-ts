@@ -63,17 +63,16 @@ module.exports = class extends Generator {
   }
 
   configuring() {
-    // try create folder
+    // Try to create folder
     let isExist = fs.existsSync(this.destinationPath(this.props.name));
     if (isExist && fs.statSync(this.destinationPath(this.props.name)).isDirectory()) {
       this.log.error(`Directory [${this.props.name}] already exists`);
       process.exit(1);
     }
     this.destinationRoot(this.props.name);
-    //copy configuration files.
+    // Copy configuration files.
     [
-      '.babelrc', '.editorconfig', '.eslintignore', '.eslintrc.js', '.gitignore',
-      '.postcssrc.js'
+      '.editorconfig', '.gitignore', '.postcssrc.js', 'tsconfig.json', 'tslint.json'
     ].forEach(
       file => this.fs.copy(this.templatePath(file), this.destinationPath(file))
     );
@@ -81,17 +80,20 @@ module.exports = class extends Generator {
 
   writing() {
     [
-      'build', 'config', 'test'
+      'build', 'config'
     ].forEach(
       dir => this.fs.copy(this.templatePath(dir), this.destinationPath(dir))
     );
-    // dot hidden files.
+    if (this.props.unitTest) {
+      this.fs.copy(this.templatePath('test/unit'), this.destinationPath('test/unit'));
+    }
+    // Copy dot hidden files.
     [
       'test/unit', 'static'
     ].forEach(
       dir => this.fs.copy(this.templatePath(dir, '.*'), this.destinationPath(dir))
     );
-    // templates
+    // Copy templates
     [
       'src', 'index.html', 'package.json', 'README.md'
     ].forEach(
@@ -103,10 +105,10 @@ module.exports = class extends Generator {
   }
 
   install() {
-    // this.installDependencies();
+    this.installDependencies();
   }
 
   end() {
-    this.log.info('Type npm run dev to start! ')
+    this.log.info('Type npm run dev to start! ');
   }
 };
