@@ -25,10 +25,10 @@ module.exports = class extends Generator {
         default: this.options.appname || this.appname // Default to current folder name
       },
       {
-        type: "input",
+        type: 'input',
         name: 'description',
-        message: "Project description",
-        default: "A Vue.js project"
+        message: 'Project description',
+        default: 'A Vue.js project'
       },
       {
         type: 'input',
@@ -44,10 +44,16 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'private',
+        message: 'Is this a private project?',
+        default: true
+      },
+      {
+        type: 'confirm',
         name: 'unitTest',
         message: 'Would you like to enable the Unit Test feature?',
         default: ''
-      },
+      }
     ];
 
     return this.prompt(prompts).then(props => {
