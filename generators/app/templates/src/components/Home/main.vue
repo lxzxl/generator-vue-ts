@@ -1,6 +1,16 @@
 <template>
   <div class="hello">
     <h1>{{ message }}</h1>
+    <h2>Internal Links</h2>
+    <ul>
+      <li><router-link :to="{ name: 'home', params: { userId: 123 }}">Home</router-link></li>
+      <li><router-link :to="{ name: 'page1', params: { userId: 123 }}">Home/Page1</router-link></li>
+      <li><router-link :to="{ name: 'page2', params: { userId: 123 }}">Home/Page2</router-link></li>
+    </ul>
+    <div class="pages">
+      <router-view></router-view>
+    </div>
+    <hr>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -53,5 +63,8 @@
 
   a {
     color: #42b983;
+  }
+  .pages{
+    background: lightgrey;
   }
 </style>
