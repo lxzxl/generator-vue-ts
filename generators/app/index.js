@@ -14,7 +14,7 @@ module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the outstanding ' + chalk.red('generator-vue-ts') + ' generator!'
+      'Welcome to the outstanding ' + chalk.magenta('generator-vue-ts') + ' generator!'
     ));
 
     const prompts = [
@@ -112,6 +112,6 @@ module.exports = class extends Generator {
   }
 
   end() {
-    this.log.info('Type npm run dev to start developing! ');
+    this.log(`Finished - run ${chalk.blue(`cd ${this.props.name} && npm run dev`)} to start developing!`);
   }
 };
