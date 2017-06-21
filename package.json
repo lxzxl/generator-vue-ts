@@ -34,7 +34,11 @@
     "testEnvironment": "node"
   },
   "scripts": {
+    "patch": "npm version patch && npm publish",
+    "minor": "npm version minor && npm publish",
+    "major": "npm version major && npm publish",
     "prepublish": "nsp check",
+    "postpublish": "git push origin master --follow-tags",
     "pretest": "eslint . --fix",
     "test": "jest"
   },
