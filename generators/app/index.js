@@ -106,10 +106,12 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.installDependencies();
+    this.installDependencies({
+      bower: false
+    });
   }
 
   end() {
-    this.log.info('Type npm run dev to start! ');
+    this.log.info('Type npm run dev to start developing! ');
   }
 };
