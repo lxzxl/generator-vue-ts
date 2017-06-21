@@ -4,7 +4,7 @@ import Page1 from './Page1';
 import Page2 from './Page2';
 import {RouteConfig} from 'vue-router';
 
-const route: RouteConfig = {
+export default {
   path: '/',
   name: 'home',
   component: Main,
@@ -12,6 +12,4 @@ const route: RouteConfig = {
     Page1,
     Page2,
   ],
-};
-
-export default route;
+} as RouteConfig;

@@ -1,10 +1,8 @@
 import Main from './main';
 import {RouteConfig} from 'vue-router';
 
-const route: RouteConfig = {
+export default {
   path: '/page1',
   name: 'page1',
   component: Main,
-};
-
-export default route;
+} as RouteConfig;
