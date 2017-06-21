@@ -28,7 +28,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'description',
         message: 'Project description',
-        default: 'A Vue.js project'
+        default: 'A Vue.js project with Typescript integrated.'
       },
       {
         type: 'input',
