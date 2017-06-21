@@ -72,10 +72,11 @@ module.exports = class extends Generator {
     this.destinationRoot(this.props.name);
     // Copy configuration files.
     [
-      '.editorconfig', '.gitignore', '.postcssrc.js', 'tsconfig.json', 'tslint.json'
+      '.editorconfig', '.postcssrc.js', 'tsconfig.json', 'tslint.json'
     ].forEach(
       file => this.fs.copy(this.templatePath(file), this.destinationPath(file))
     );
+    this.fs.copy(this.templatePath('_gitignore'), this.destinationPath('.gitignore'));
   }
 
   writing() {
